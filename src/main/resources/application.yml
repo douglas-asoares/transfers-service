@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: transfers-service
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  data:
+    mongodb:
+      auto-index-creation: true
+      uri: mongodb://localhost:27017/transfers-service
+  jackson:
+    default-property-inclusion: non_empty
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_PROPERTIES: true
+    parser:
+      ALLOW_COMMENTS: true
+
+info:
+  build:
+    version: '@project.version@'
+    name: '@project.name@'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+        exclude: configmaps
+  endpoint:
+    health:
+      show-details: always
+  health:
+    probes:
+      enabled: true
+  info:
+    git:
+      mode: full
+
+server:
+  shutdown: graceful
