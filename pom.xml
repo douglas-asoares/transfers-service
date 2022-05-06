@@ -141,6 +141,8 @@
                                         <exclude>**.*repositories.**</exclude>
                                         <exclude>**.*exceptions.**</exclude>
                                         <exclude>**.*Application</exclude>
+                                        <exclude>**.*json.**</exclude>
+                                        <exclude>**.*configs.**</exclude>
                                     </excludes>
                                 </rule>
                             </rules>
