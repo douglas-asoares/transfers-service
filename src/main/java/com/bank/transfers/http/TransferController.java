@@ -1,6 +1,8 @@
 package com.bank.transfers.http;
 
-import com.bank.transfers.exceptions.*;
+import com.bank.transfers.exceptions.AccountNotFoundException;
+import com.bank.transfers.exceptions.FailedInterBankTransferException;
+import com.bank.transfers.exceptions.NotAllowedTransferException;
 import com.bank.transfers.http.json.input.TransferInputJson;
 import com.bank.transfers.http.json.output.TransferOutputJson;
 import com.bank.transfers.usecases.PerformsTransfer;
@@ -40,18 +42,18 @@ public class TransferController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad Request"),
                     @ApiResponse(code = 500, message = "Internal Server Error")
             })
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<String> performsTransfer(
-            @RequestBody @Valid final TransferInputJson transferInputJson) {
+            @RequestBody @Valid final TransferInputJson transferInputJson) throws JsonProcessingException {
 
         log.info("Request received {}", transferInputJson);
 
         try {
-            return ResponseEntity.ok(payloadToString(performsTransfer.execute(transferInputJson)));
-        } catch (final AccountNotFoundException | BankNotFoundException | CustomerNotFoundException |
-                       FailedInterBankTransferException | NotAllowedTransferException ex) {
+            return ResponseEntity.ok().body(payloadToString(performsTransfer.execute(transferInputJson)));
+        } catch (final AccountNotFoundException | FailedInterBankTransferException | NotAllowedTransferException ex) {
             log.error("An error occurred while performing transfer: {}",
                     ex.getMessage());
             return ResponseEntity.badRequest().body(ex.getMessage());
@@ -62,11 +64,7 @@ public class TransferController {
         }
     }
 
-    private String payloadToString(final TransferOutputJson transferOutputJson) {
-        try {
-            return objectMapper.writeValueAsString(transferOutputJson);
-        } catch (final JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+    private String payloadToString(final TransferOutputJson transferOutputJson) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(transferOutputJson);
     }
 }

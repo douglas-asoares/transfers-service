@@ -14,9 +14,9 @@ public class CreateCustomer {
 
     private final CustomerGateway customerGateway;
 
-    public void create(final CustomerInputJson customerInputJson) {
+    public Customer create(final CustomerInputJson customerInputJson) {
 
-        customerGateway.save(toDomain(customerInputJson));
+        return customerGateway.save(toDomain(customerInputJson));
     }
 
     private Customer toDomain(final CustomerInputJson customerInputJson) {

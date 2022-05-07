@@ -22,7 +22,7 @@ public class AccountCrud {
 
     private final BankGateway bankGateway;
 
-    public void create(final AccountInputJson accountInputJson) {
+    public Account create(final AccountInputJson accountInputJson) {
 
         final var customer = customerGateway.findById(accountInputJson.getCustomerCpf());
 
@@ -31,11 +31,14 @@ public class AccountCrud {
         final var account = accountGateway.save(toDomain(accountInputJson));
 
         associateAccountToCustomer(customer, account);
+
+        return account;
     }
 
     private void associateCustomerToBank(final AccountInputJson accountInputJson) {
 
         final var bank = bankGateway.findById(accountInputJson.getBankCnpj());
+
         bank.getCustomersCpfs().add(accountInputJson.getCustomerCpf());
         bankGateway.save(bank);
     }
@@ -54,10 +57,13 @@ public class AccountCrud {
                 .build();
     }
 
-    public void depositMoney(final AccountInputJson accountInputJson) {
+    public Account depositMoney(final AccountInputJson accountInputJson) {
         final var account = accountGateway.findById(accountInputJson.getCustomerCpf(),
                 accountInputJson.getBankCnpj());
+
         account.setMoneyAmount(account.getMoneyAmount() + accountInputJson.getMoneyAmount());
         accountGateway.save(account);
+
+        return account;
     }
 }

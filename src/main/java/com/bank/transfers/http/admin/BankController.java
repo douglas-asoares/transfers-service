@@ -37,7 +37,7 @@ public class BankController {
                     @ApiResponse(code = 500, message = "Internal Server Error")
             })
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<HttpStatus> create(
+    public ResponseEntity<String> create(
             @RequestBody @Valid final BankInputJson bankInputJson) {
 
         log.info("Request received to create a bank: {}", bankInputJson);
@@ -48,7 +48,7 @@ public class BankController {
         } catch (final Exception ex) {
             log.error("An error occurred while creating customer: {}",
                     ex.getMessage());
-            throw ex;
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 }

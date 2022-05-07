@@ -24,11 +24,11 @@ public class PerformsTransfer {
         final var accountFrom = accountGateway.findById(
                 transferInputJson.getFromAccount().getCustomerCpf(), transferInputJson.getFromAccount().getBankCnpj());
 
-        final var accountTo = accountGateway.findById(
-                transferInputJson.getToAccount().getCustomerCpf(), transferInputJson.getToAccount().getBankCnpj());
-
         if (accountFrom.getMoneyAmount() < transferInputJson.getAmount())
             throw new NotAllowedTransferException(UNAVAILABLE_MONEY);
+
+        final var accountTo = accountGateway.findById(
+                transferInputJson.getToAccount().getCustomerCpf(), transferInputJson.getToAccount().getBankCnpj());
 
         return applyTransferTypeRules(accountFrom, accountTo, transferInputJson.getAmount());
     }

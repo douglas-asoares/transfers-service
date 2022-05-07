@@ -6,11 +6,11 @@ import com.bank.transfers.exceptions.FailedInterBankTransferException;
 import com.bank.transfers.exceptions.NotAllowedTransferException;
 import com.bank.transfers.gateways.AccountGateway;
 import com.bank.transfers.http.json.output.TransferOutputJson;
+import com.bank.transfers.utils.InterBankTransferUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +24,10 @@ public class ApplyInterBankTransferRules {
 
     private final AccountGateway accountGateway;
 
+    private final InterBankTransferUtils interBankTransferUtils;
+
     public TransferOutputJson execute(final Account accountFrom, final Account accountTo, final Long amount) {
-        if (shouldTransferFail()) {
+        if (interBankTransferUtils.shouldTransferFail()) {
             throw new FailedInterBankTransferException(FAILED_TRANSFER);
         }
 
@@ -40,10 +42,6 @@ public class ApplyInterBankTransferRules {
                 .receiverCustomerCpf(accountTo.getId().getCustomerCpf())
                 .amount(amount)
                 .build();
-    }
-
-    private boolean shouldTransferFail() {
-        return ThreadLocalRandom.current().nextInt(1, 11) <= 3;
     }
 
     private void performsTransfer(final Account accountFrom, final Account accountTo, final Long amount) {

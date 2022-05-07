@@ -37,6 +37,7 @@ public class AccountController {
     @ApiResponses(
             value = {
                     @ApiResponse(code = 200, message = "OK"),
+                    @ApiResponse(code = 400, message = "Bad Request"),
                     @ApiResponse(code = 500, message = "Internal Server Error")
             })
     @ResponseStatus(value = HttpStatus.OK)
@@ -55,7 +56,7 @@ public class AccountController {
         } catch (final Exception ex) {
             log.error("An error occurred while creating account: {}",
                     ex.getMessage());
-            throw ex;
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 
@@ -84,7 +85,7 @@ public class AccountController {
         } catch (final Exception ex) {
             log.error("An error occurred while depositing money into an account: {}",
                     ex.getMessage());
-            throw ex;
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 }

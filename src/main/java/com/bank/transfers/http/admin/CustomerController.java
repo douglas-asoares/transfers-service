@@ -37,7 +37,7 @@ public class CustomerController {
                     @ApiResponse(code = 500, message = "Internal Server Error")
             })
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<HttpStatus> create(
+    public ResponseEntity<String> create(
             @RequestBody @Valid final CustomerInputJson customerInputJson) {
 
         log.info("Request received to create a customer: {}", customerInputJson);
@@ -48,7 +48,7 @@ public class CustomerController {
         } catch (final Exception ex) {
             log.error("An error occurred while creating customer: {}",
                     ex.getMessage());
-            throw ex;
+            return ResponseEntity.internalServerError().body(ex.getMessage());
         }
     }
 }

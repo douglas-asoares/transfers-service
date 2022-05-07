@@ -14,9 +14,9 @@ public class CreateBank {
 
     private final BankGateway bankGateway;
 
-    public void create(final BankInputJson bankInputJson) {
+    public Bank create(final BankInputJson bankInputJson) {
 
-        bankGateway.save(toDomain(bankInputJson));
+        return bankGateway.save(toDomain(bankInputJson));
     }
 
     private Bank toDomain(final BankInputJson bankInputJson) {
