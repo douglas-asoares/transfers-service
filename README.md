@@ -67,7 +67,7 @@ The following tools were used in the project building:
 - [Swagger UI](https://swagger.io/tools/swagger-ui/)
 - [Info](http://localhost:8080/actuator/info)
 
-## 🛠 Documentação
+## 🛠 Documentation
 
 - **[Swagger](http://localhost:8080/swagger-ui.html)**
 
