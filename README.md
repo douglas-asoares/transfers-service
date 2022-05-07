@@ -12,7 +12,7 @@
 
 ## 💻 About the project
 
-- This API allows the management of transfer between two bank accounts
+- This API allows the management of transfers between two bank accounts
 
 ## ⚙️ Features
 
@@ -33,7 +33,7 @@ Before starting, you will need to have the following tools installed on your mac
 - [Maven](https://maven.apache.org/install.html)
 - [MongoDB server](https://www.mongodb.com/docs/v4.4/installation/)
 
-#### 🎲 Rodando o projeto
+#### 🎲 Run application:
 
 ```bash
 
@@ -51,7 +51,7 @@ $ TransfersServiceApplication.java
 
 # The server will start on port :8080
 
-# The local MongoDB server must be running and a database named transfers-service must be created in your local database
+# The local MongoDB server must be running and a database named `transfers-service` must be created in your local database
 
 ```
 
